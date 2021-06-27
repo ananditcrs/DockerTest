@@ -1,7 +1,9 @@
 pipeline {  
-    environment {
+
+  environment {
     registry = "anandsingh555/docker-images"
     registryCredential = 'dockerhubcred'
+    dockerImage = ''
   }  
   agent any  
   stages {
@@ -10,6 +12,21 @@ pipeline {
         script {
           docker.build registry + ":$BUILD_NUMBER"
         }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+          }
+          
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
   }

@@ -5,7 +5,7 @@ pipeline {
     registryCredential = 'dockerhubcred'
     dockerImage = ''
   }
-    
+
   agent any  
   stages {
     stage('Building image') {
@@ -25,7 +25,7 @@ pipeline {
       }
     }
     stage('Remove Unused docker image') {
-      steps{
+      steps {
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }

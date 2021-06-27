@@ -25,8 +25,11 @@ pipeline {
       }
     }
     stage('Run Container on Dev Server'){
-     def dockerRun = 'docker run -p 8080:8080 -d --name my-app ${env.registry} + ":$BUILD_NUMBER"'
-     
+      steps {
+        script {
+        def dockerRun = 'docker run -p 8080:8080 -d --name my-app ${env.registry} + ":$BUILD_NUMBER"'
+      }
+      }
    }
 
     stage('Remove Unused docker image') {
